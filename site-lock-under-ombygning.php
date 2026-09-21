@@ -32,6 +32,7 @@ require_once SLUO_PLUGIN_DIR . 'includes/functions.php';
 require_once SLUO_PLUGIN_DIR . 'includes/admin-settings.php';
 require_once SLUO_PLUGIN_DIR . 'includes/admin-logs.php';
 require_once SLUO_PLUGIN_DIR . 'includes/frontend.php';
+require_once SLUO_PLUGIN_DIR . 'includes/updater.php';
 
 // Activation hook
 register_activation_hook( __FILE__, 'sluo_activate' );

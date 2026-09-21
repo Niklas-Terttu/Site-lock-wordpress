@@ -39,6 +39,14 @@ Et professionelt WordPress plugin, der viser en tilpasselig "Under Ombygning" si
    - Gå til Indstillinger → Under Ombygning
    - Indstil dine præferencer og gem
 
+## Automatiske opdateringer
+
+Pluginet tjekker automatisk GitHub-repositoryets seneste release. Når der pushes til
+`main`, bygger GitHub en ny plugin-zip og opretter en release. WordPress kan derefter
+vise opdateringen under **Dashboard → Opdateringer**.
+
+Opdateringstjekket kan være cachet i op til 12 timer af WordPress.
+
 ## Sådan bruges det
 
 ### 1. Aktiver "Under Ombygning"

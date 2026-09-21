@@ -1,0 +1,33 @@
+name: Build plugin release
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Build release package
+        shell: bash
+        run: |
+          VERSION="1.0.${GITHUB_RUN_NUMBER}"
+          PACKAGE_DIR="package/site-lock-under-ombygning"
+          mkdir -p "$PACKAGE_DIR"
+          rsync -a --exclude='.git' --exclude='.github' --exclude='package' ./ "$PACKAGE_DIR/"
+          sed -i -E "0,/Version: [0-9.]+/s//Version: ${VERSION}/" "$PACKAGE_DIR/site-lock-under-ombygning.php"
+          sed -i -E "0,/define\( 'SLUO_VERSION', '[0-9.]+'/s//define( 'SLUO_VERSION', '${VERSION}'/" "$PACKAGE_DIR/site-lock-under-ombygning.php"
+          (cd package && zip -qr "../site-lock-under-ombygning-${VERSION}.zip" site-lock-under-ombygning)
+          echo "VERSION=${VERSION}" >> "$GITHUB_ENV"
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "v${VERSION}" "site-lock-under-ombygning-${VERSION}.zip" --title "Version ${VERSION}" --generate-notes
